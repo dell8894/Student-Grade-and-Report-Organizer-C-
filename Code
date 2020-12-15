@@ -1,0 +1,572 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StudentGradeSystem
+{
+    internal class Program
+    {
+        private static void showGrades(Dictionary<string, List<int>> a)
+        {
+            string key;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("Please enter the full student name: ");
+                key = Console.ReadLine();
+                if (!a.ContainsKey(key))
+                {
+                    Console.Clear();
+                    Console.WriteLine("That student name does not exist in the records.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            Console.Write("\n" + key + " grades: ");
+            foreach (int num in a[key])
+                Console.Write(string.Format("{0} ", (object)num));
+            Console.WriteLine("\n\nPress any key to go back to the menu.");
+            Console.ReadKey();
+        }
+
+        private static void ShowTopStudent(Dictionary<string, List<int>> a)
+        {
+            double num1 = 0.0;
+            string str = (string)null;
+            foreach (KeyValuePair<string, List<int>> keyValuePair in a)
+            {
+                double num2;
+                try
+                {
+                    num2 = keyValuePair.Value.Average();
+                }
+                catch (Exception ex)
+                {
+                    continue;
+                }
+                if (num2 > num1)
+                {
+                    num1 = num2;
+                    str = keyValuePair.Key;
+                }
+            }
+            Console.Clear();
+            Console.WriteLine(string.Format("{0} is the top student with an average score of {1}", (object)str, (object)Math.Round(num1, 2)));
+            Console.WriteLine("\n\nPress any key to go back to the menu.");
+            Console.ReadKey();
+        }
+
+        private static void ChangeStudent(Dictionary<string, List<int>> a)
+        {
+            string key;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("Please enter the student name to change: ");
+                key = Console.ReadLine();
+                if (!a.ContainsKey(key))
+                {
+                    Console.Clear();
+                    Console.WriteLine("That student name does not exist in the records.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            Console.Write("\nPlease enter the corrected student name: ");
+            string index = Console.ReadLine();
+            List<int> intList = new List<int>();
+            foreach (int num in a[key])
+                intList.Add(num);
+            a[index] = intList;
+            a.Remove(key);
+            Console.WriteLine("\n\nChange has been made. Press any key to go back to the menu.");
+            Console.ReadKey();
+        }
+
+        private static void AddStudent(Dictionary<string, List<int>> a)
+        {
+            Console.Clear();
+            Console.Write("Please enter the student name to add: ");
+            string index = Console.ReadLine();
+            a[index] = new List<int>();
+            Console.Write("\n\nThe change has been made. Press any key to go back to the menu. ");
+            Console.ReadKey();
+        }
+
+        private static void DeleteStudent(Dictionary<string, List<int>> a)
+        {
+            string key;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("Please enter the student name to remove: ");
+                key = Console.ReadLine();
+                if (!a.ContainsKey(key))
+                {
+                    Console.Clear();
+                    Console.WriteLine("That student name does not exist in the records.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            a.Remove(key);
+            Console.Write("\n\nThe change has been made. Press any key to go back to the menu. ");
+            Console.ReadKey();
+        }
+
+        private static void ChangeGrade(Dictionary<string, List<int>> a)
+        {
+            string key;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("Please enter the student name for grade change: ");
+                key = Console.ReadLine();
+                if (!a.ContainsKey(key))
+                {
+                    Console.Clear();
+                    Console.WriteLine("That student name does not exist in the records.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            Console.WriteLine("\n" + key + " grades:");
+            for (int index = 0; index < a[key].Count; ++index)
+                Console.WriteLine(string.Format("{0}) {1}", (object)index, (object)a[key][index]));
+            Console.Write("\nPlease enter the number of the grade to change: ");
+            int int32_1;
+            while (true)
+            {
+                try
+                {
+                    int32_1 = Convert.ToInt32(Console.ReadLine());
+                    if (int32_1 >= a[key].Count)
+                        Console.Write("Index too large. Please enter a smaller number: ");
+                    else
+                        break;
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("\nInvalid input. Please choose from one of the above number:");
+                }
+            }
+            Console.Write("\nPlease enter the new grade value: ");
+            int int32_2;
+            while (true)
+            {
+                try
+                {
+                    int32_2 = Convert.ToInt32(Console.ReadLine());
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("\nInvalid input. Please enter new grade score:");
+                }
+            }
+            Console.WriteLine(string.Format("\n{0} has been changed to {1}", (object)a[key][int32_1], (object)int32_2));
+            a[key][int32_1] = int32_2;
+            Console.WriteLine("\n" + key + " grades:");
+            for (int index = 0; index < a[key].Count; ++index)
+                Console.WriteLine(string.Format("{0}) {1}", (object)index, (object)a[key][index]));
+            Console.Write("\n\nPress any key to go back to the menu. ");
+            Console.ReadKey();
+        }
+
+        private static void AddGrade(Dictionary<string, List<int>> a)
+        {
+            string key;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("Please enter the student name for grade change: ");
+                key = Console.ReadLine();
+                if (!a.ContainsKey(key))
+                {
+                    Console.Clear();
+                    Console.WriteLine("That student name does not exist in the records.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            Console.WriteLine("\n" + key + " grades:");
+            for (int index = 0; index < a[key].Count; ++index)
+                Console.WriteLine(string.Format("{0}) {1}", (object)index, (object)a[key][index]));
+            Console.Write("\nPlease enter the number of the grade to add: ");
+            int int32;
+            while (true)
+            {
+                try
+                {
+                    int32 = Convert.ToInt32(Console.ReadLine());
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("\nInvalid input. Please enter the number of the grade to add: ");
+                }
+            }
+            Console.WriteLine(string.Format("\n{0} has been added.", (object)int32));
+            a[key].Add(int32);
+            Console.WriteLine("\n" + key + " grades:");
+            for (int index = 0; index < a[key].Count; ++index)
+                Console.WriteLine(string.Format("{0}) {1}", (object)index, (object)a[key][index]));
+            Console.Write("\n\nPress any key to go back to the menu. ");
+            Console.ReadKey();
+        }
+
+        private static void DeleteGrade(Dictionary<string, List<int>> a)
+        {
+            string key;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("Please enter the student name for grade removal: ");
+                key = Console.ReadLine();
+                if (!a.ContainsKey(key))
+                {
+                    Console.Clear();
+                    Console.WriteLine("That student name does not exist in the records.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            Console.WriteLine("\n" + key + " grades:");
+            for (int index = 0; index < a[key].Count; ++index)
+                Console.WriteLine(string.Format("{0}) {1}", (object)index, (object)a[key][index]));
+            Console.Write("\nPlease enter the number of the grade to remove: ");
+            int int32;
+            while (true)
+            {
+                try
+                {
+                    int32 = Convert.ToInt32(Console.ReadLine());
+                    a[key].RemoveAt(int32);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("\nInvalid input. Please enter the number of the grade to remove: ");
+                }
+            }
+            Console.WriteLine(string.Format("\n{0} has been removed.", (object)int32));
+            Console.WriteLine("\n" + key + " grades:");
+            for (int index = 0; index < a[key].Count; ++index)
+                Console.WriteLine(string.Format("{0}) {1}", (object)index, (object)a[key][index]));
+            Console.Write("\n\nPress any key to go back to the menu. ");
+            Console.ReadKey();
+        }
+
+        private static void Main(string[] args)
+        {
+            Dictionary<string, List<int>> a = new Dictionary<string, List<int>>()
+      {
+        {
+          "Alfred S. McKenzie",
+          new List<int>() { 48, 96, 64 }
+        },
+        {
+          "Alison W. MacDonald",
+          new List<int>() { 54, 99, 72 }
+        },
+        {
+          "Allan Y. Nguyen",
+          new List<int>() { 42, 42, 41 }
+        },
+        {
+          "Audrey M. Kern",
+          new List<int>() { 49, 67, 93 }
+        },
+        {
+          "Barry V. Gordon",
+          new List<int>() { 66, 57, 52 }
+        },
+        {
+          "Beth G. Swanson",
+          new List<int>() { 67, 55, 70 }
+        },
+        {
+          "Billy P. Carroll",
+          new List<int>() { 70, 58, 80 }
+        },
+        {
+          "Calvin A. Diaz",
+          new List<int>() { 86, 42, 50 }
+        },
+        {
+          "Charlotte G. Hamrick",
+          new List<int>() { 43, 74, 40 }
+        },
+        {
+          "Chris Anderson",
+          new List<int>() { 72, 67, 76 }
+        },
+        {
+          "Claire Q. Gray",
+          new List<int>() { 63, 90, 47 }
+        },
+        {
+          "Clara H. Best",
+          new List<int>() { 59, 63, 69 }
+        },
+        {
+          "Clifford Garrett",
+          new List<int>() { 87, 89, 72 }
+        },
+        {
+          "Dean Leach",
+          new List<int>() { 95, 40, 100 }
+        },
+        {
+          "Edgar P. Stuart",
+          new List<int>() { 96, 49, 91 }
+        },
+        {
+          "Edna H. Hoyle",
+          new List<int>() { 66, 70, 88 }
+        },
+        {
+          "Eileen Olson",
+          new List<int>() { 100, 85, 51 }
+        },
+        {
+          "Franklin M. Coley",
+          new List<int>() { 59, 63, 97 }
+        },
+        {
+          "Frederick J. McCall",
+          new List<int>() { 97, 52, 57 }
+        },
+        {
+          "Glen R. Kramer",
+          new List<int>() { 70, 48, 52 }
+        },
+        {
+          "Gordon D. Berman",
+          new List<int>() { 88, 74, 46 }
+        },
+        {
+          "Jean M. Griffin",
+          new List<int>() { 48, 86, 99 }
+        },
+        {
+          "Jeff T. Kaplan",
+          new List<int>() { 54, 91, 72 }
+        },
+        {
+          "Joanna L. Middleton",
+          new List<int>() { 43, 88, 73 }
+        },
+        {
+          "Joanne L. Bowling",
+          new List<int>() { 78, 79, 79 }
+        },
+        {
+          "Julian E. Hendrix",
+          new List<int>() { 99, 51, 91 }
+        },
+        {
+          "Keith X. Schwartz",
+          new List<int>() { 97, 86, 97 }
+        },
+        {
+          "Ken T. Kennedy",
+          new List<int>() { 80, 66, 40 }
+        },
+        {
+          "Kim T. Matthews",
+          new List<int>() { 75, 95, 55 }
+        },
+        {
+          "Kristen O. Fisher",
+          new List<int>() { 44, 72, 57 }
+        },
+        {
+          "Louise F. Coble",
+          new List<int>() { 67, 63, 98 }
+        },
+        {
+          "Luis A. Burnett",
+          new List<int>() { 85, 74, 52 }
+        },
+        {
+          "Luis N. Turner",
+          new List<int>() { 86, 53, 86 }
+        },
+        {
+          "Margaret M. Burgess",
+          new List<int>() { 76, 93, 63 }
+        },
+        {
+          "Martin Y. Hester",
+          new List<int>() { 61, 74, 51 }
+        },
+        {
+          "Mary G. Byrd",
+          new List<int>() { 95, 40, 95 }
+        },
+        {
+          "Nina Y. Savage",
+          new List<int>() { 73, 41, 84 }
+        },
+        {
+          "Pauline N. Coley",
+          new List<int>() { 73, 51, 87 }
+        },
+        {
+          "Penny Lamb",
+          new List<int>() { 49, 94, 61 }
+        },
+        {
+          "Peter L. Guthrie",
+          new List<int>() { 75, 70, 44 }
+        },
+        {
+          "Rhonda Chan",
+          new List<int>() { 94, 52, 93 }
+        },
+        {
+          "Richard E. Hull",
+          new List<int>() { 76, 99, 59 }
+        },
+        {
+          "Robyn K. Shapiro",
+          new List<int>() { 45, 82, 68 }
+        },
+        {
+          "Samantha I. Hardin",
+          new List<int>() { 89, 42, 95 }
+        },
+        {
+          "Sara Lucas",
+          new List<int>() { 80, 60, 85 }
+        },
+        {
+          "Stephen Finch",
+          new List<int>() { 84, 95, 70 }
+        },
+        {
+          "Tammy L. Lang",
+          new List<int>() { 62, 73, 56 }
+        },
+        {
+          "Vincent Y. Fischer",
+          new List<int>() { 79, 88, 92 }
+        },
+        {
+          "William S. McCormick",
+          new List<int>() { 99, 68, 65 }
+        }
+      };
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("1) Reports");
+                Console.WriteLine("2) Student Management");
+                Console.WriteLine("3) Grade Management");
+                Console.WriteLine("4) Exit\n");
+                Console.Write("Please choose from one of the menu option: ");
+                string str1 = Console.ReadLine();
+                if (str1 == "1")
+                {
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("1) Show all grades for a single student");
+                        Console.WriteLine("2) Show the student name and grade average for the top student");
+                        Console.WriteLine("3) Return to the main menu\n");
+                        Console.Write("Please choose from one of the menu option: ");
+                        string str2 = Console.ReadLine();
+                        if (str2 == "1")
+                            Program.showGrades(a);
+                        else if (str2 == "2")
+                            Program.ShowTopStudent(a);
+                        else if (!(str2 == "3"))
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nInvalid selection. Please choose from one of the menu option.");
+                            Console.WriteLine("Press any key to go back to the menu.");
+                            Console.ReadKey();
+                        }
+                        else
+                            break;
+                    }
+                }
+                else if (str1 == "2")
+                {
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("1) Change student");
+                        Console.WriteLine("2) Add student");
+                        Console.WriteLine("3) Delete student");
+                        Console.WriteLine("4) Return to the main menu\n");
+                        Console.Write("Please choose from one of the menu option: ");
+                        string str2 = Console.ReadLine();
+                        if (str2 == "1")
+                            Program.ChangeStudent(a);
+                        else if (str2 == "2")
+                            Program.AddStudent(a);
+                        else if (str2 == "3")
+                            Program.DeleteStudent(a);
+                        else if (!(str2 == "4"))
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nInvalid selection. Please choose from one of the menu option.");
+                            Console.WriteLine("Press any key to go back to the menu.");
+                            Console.ReadKey();
+                        }
+                        else
+                            break;
+                    }
+                }
+                else if (str1 == "3")
+                {
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("1) Change grades");
+                        Console.WriteLine("2) Add grades");
+                        Console.WriteLine("3) Delete grades");
+                        Console.WriteLine("4) Return to the main menu\n");
+                        Console.Write("Please choose from one of the menu option: ");
+                        string str2 = Console.ReadLine();
+                        if (str2 == "1")
+                            Program.ChangeGrade(a);
+                        else if (str2 == "2")
+                            Program.AddGrade(a);
+                        else if (str2 == "3")
+                            Program.DeleteGrade(a);
+                        else if (!(str2 == "4"))
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nInvalid selection. Please choose from one of the menu option.");
+                            Console.WriteLine("Press any key to go back to the menu.");
+                            Console.ReadKey();
+                        }
+                        else
+                            break;
+                    }
+                }
+                else if (!(str1 == "4"))
+                {
+                    Console.Clear();
+                    Console.WriteLine("\nInvalid selection. Please choose from one of the menu option.");
+                    Console.WriteLine("Press any key to go back to the menu.");
+                    Console.ReadKey();
+                }
+                else
+                    break;
+            }
+            Console.ReadKey();
+        }
+    }
+}
